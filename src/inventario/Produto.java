@@ -1,5 +1,7 @@
 package inventario;
 
+import java.text.DecimalFormat;
+
 public class Produto {
 
 	//Declarações de campo de instância
@@ -7,6 +9,7 @@ public class Produto {
 	private String produto;
 	private int qtdUnidadesEstoque;
 	private double preco;
+	private DecimalFormat df = new DecimalFormat("#.##");
 	
 	//Metodo construror vazio para instancia de classe
 
@@ -79,24 +82,40 @@ public class Produto {
 
 	@Override
 	public String toString() {
-		return "Número do Item: " + numItem + "\n" + "Nome: " + produto + "\n" + "Quantidade em estoque: " + qtdUnidadesEstoque
-				+ "\n" + "Preço: " + preco + "\n" + "Valor do estoque: " + getInventoryValue() + "\n" + "Status do produto: " 
-				+ (status == true ? "Ativo" : "Descontinuado");
+		return 			 "Número do Item         : " + numItem 
+				+ "\n" + "Nome                   : " + produto 
+				+ "\n" + "Quantidade em estoque  : " + qtdUnidadesEstoque
+				+ "\n" + "Preço                  : "+ df.format(preco)  
+				+ "\n" + "Valor do estoque       : " + df.format(getInventoryValue())  
+				+ "\n" + "Status do produto      : " + (status == true ? "Ativo" : "Descontinuado");
 	}
-	
-	
-	/*String sts;
-	private String getStatus() {
-		if (status == true) {
-			sts= "Ativo";
-		}else {
-			sts="Descontinuado";
-		}
-		return sts;
-	}*/
 	
 	private double getInventoryValue() {
 		return qtdUnidadesEstoque * preco;
 	}
+	
+	public void addEstoque(int n) {
+		try {
+			if(n<1) {
+				throw new Exception("Digite um número maior que 0");
+			}
+			qtdUnidadesEstoque += n;
+		}catch(Exception e){
+			e.getMessage();
+		}
+		
+	}
+	
+	public void retiraEstoque(int n) {
+		try {
+			if(n<1 || n>qtdUnidadesEstoque) {
+				throw new Exception("Digite um número entre 1 e " + qtdUnidadesEstoque);
+			}
+			qtdUnidadesEstoque -= n;
+		}catch(Exception e) {
+			e.getMessage();
+		}
+	}
+	
 	
 }
