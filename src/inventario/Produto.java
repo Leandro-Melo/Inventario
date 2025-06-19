@@ -4,15 +4,11 @@ import java.text.DecimalFormat;
 
 public class Produto {
 
-	//Declarações de campo de instância
+	//Declarações de variaveis
 	private int numItem;
 	private String produto;
 	private int qtdUnidadesEstoque;
 	private double preco;
-	private DecimalFormat df = new DecimalFormat("#.##");
-	
-	//Metodo construror vazio para instancia de classe
-
 	private boolean status;
 	
 	//Metodo construror vazio para instancia de classe
@@ -80,40 +76,44 @@ public class Produto {
 		this.status = status;
 	}
 
+	//metodo para imprimir produto
 	@Override
 	public String toString() {
 		return 			 "Número do Item         : " + numItem 
 				+ "\n" + "Nome                   : " + produto 
 				+ "\n" + "Quantidade em estoque  : " + qtdUnidadesEstoque
-				+ "\n" + "Preço                  : "+ df.format(preco)  
-				+ "\n" + "Valor do estoque       : " + df.format(getInventoryValue())  
+				+ "\n" + String.format("Preço                  : %.2f", preco)  
+				+ "\n" + String.format("Valor do estoque       : %.2f", getInventoryValue())
 				+ "\n" + "Status do produto      : " + (status == true ? "Ativo" : "Descontinuado");
 	}
 	
-	private double getInventoryValue() {
+	//metodo para retornar o valor total do estoque
+	public double getInventoryValue() {
 		return qtdUnidadesEstoque * preco;
 	}
 	
+	//metodo para adicionar itens ao estoque de um produto
 	public void addEstoque(int n) {
-		try {
+		try {//compara se o valor passado é 0 ou negativo
 			if(n<1) {
-				throw new Exception("Digite um número maior que 0");
+				throw new Exception("Digite um número maior que 0");//lança uma exceção para um numero invalido
 			}
 			qtdUnidadesEstoque += n;
-		}catch(Exception e){
-			e.getMessage();
+		}catch(Exception e){//captura a exceção de numero invalido
+			System.out.print( e.getMessage());
 		}
 		
 	}
 	
+	//metodo para remover itens do estoque de um produto
 	public void retiraEstoque(int n) {
-		try {
+		try {//compara se o valor passado é 0 ou negativo ou maior que o numero de produtos do estoque
 			if(n<1 || n>qtdUnidadesEstoque) {
-				throw new Exception("Digite um número entre 1 e " + qtdUnidadesEstoque);
+				throw new Exception("Digite um número entre 1 e " + qtdUnidadesEstoque);//lança uma exceção para um numero invalido
 			}
 			qtdUnidadesEstoque -= n;
-		}catch(Exception e) {
-			e.getMessage();
+		}catch(Exception e) {//captura a exceção de numero invalido
+			System.out.print( e.getMessage());
 		}
 	}
 	
